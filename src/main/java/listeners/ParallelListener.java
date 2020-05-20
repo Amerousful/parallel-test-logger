@@ -1,6 +1,5 @@
 package listeners;
 
-
 import io.qameta.allure.Attachment;
 import logger.LoggerFactory;
 import org.testng.IInvokedMethod;
@@ -8,45 +7,15 @@ import org.testng.IInvokedMethodListener;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.logging.Logger;
-
+import static logger.Props.properties;
 
 public class ParallelListener implements IInvokedMethodListener, ITestListener {
-
-    public static final Logger LOGGER = Logger.getLogger(ParallelListener.class.getName());
-
-    private final static Properties properties;
-
-    static {
-        properties = loadProperties();
-    }
-
-    public static Properties loadProperties() {
-        String propertiesFileName = "parallel_log.properties";
-
-        Properties mainProperties = new Properties();
-        try (InputStream input = LoggerFactory.class.getClassLoader().getResourceAsStream(propertiesFileName)) {
-
-            if (input != null) {
-                mainProperties.load(input);
-            } else {
-                LOGGER.info("Sorry, unable to find " + propertiesFileName);
-            }
-
-        } catch (IOException e) {  
-            e.printStackTrace();
-        }
-        return mainProperties;
-    }
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult result) {
         boolean isParallel = result.getTestContext().getCurrentXmlTest().getParallel().isParallel();
         if (isParallel) {
-            LoggerFactory.init(method.getTestMethod().getMethodName(), properties);
+            LoggerFactory.init(method.getTestMethod().getMethodName());
         }
     }
 

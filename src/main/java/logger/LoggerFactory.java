@@ -3,10 +3,10 @@ package logger;
 import org.apache.log4j.*;
 
 import java.util.Objects;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static logger.Props.properties;
 import static org.apache.log4j.Logger.getLogger;
 
 public class LoggerFactory {
@@ -16,7 +16,7 @@ public class LoggerFactory {
     private static final String CONSOLE_LAYOUT = "[%p] %d{HH:mm:ss} [%l]- %m%n";
     private static final String PARALLEL_LAYOUT = "t:%X{threadId} [%p] %d{HH:mm:ss} [%l] - %m%n";
 
-    public static Logger init(String testName, Properties properties) {
+    public static Logger init(String testName) {
         Long threadId = Thread.currentThread().getId();
 
         MDC.put("threadId", threadId);
@@ -37,30 +37,43 @@ public class LoggerFactory {
         return logger;
     }
 
-    public static Logger log() {
+    public static Logger log(String customPattern) {
         Long threadId = Thread.currentThread().getId();
         Logger logger = byThreadIdLogs.get(threadId);
         if (threadId == 1 || Objects.isNull(logger)) {
-            return setConsoleAppender(3);
+            return setConsoleAppender(3, customPattern);
         }
         return byThreadIdLogs.get(threadId);
+    }
+
+    public static Logger log() {
+        return log("");
     }
 
     public static Logger log(int nestedLevel) {
         Long threadId = Thread.currentThread().getId();
         Logger logger = byThreadIdLogs.get(threadId);
         if (threadId == 1 || Objects.isNull(logger)) {
-            return setConsoleAppender(nestedLevel);
+            return setConsoleAppender(nestedLevel, "");
         }
         return byThreadIdLogs.get(threadId);
     }
 
-    private static Logger setConsoleAppender(int nestedLevel) {
+    private static Logger setConsoleAppender(int nestedLevel, String customPattern) {
         String className = Thread.currentThread().getStackTrace()[nestedLevel].getClassName();
 
         Logger logger = byClassLogs.get(className);
         if (Objects.isNull(logger)) {
-            final ConsoleAppender consoleAppender = new ConsoleAppender(new PatternLayout(CONSOLE_LAYOUT), "System.out");
+
+            String pattern;
+
+            String patternProps = properties.getProperty("single_pattern");
+
+            pattern = customPattern.isEmpty()
+                    ? patternProps == null ? CONSOLE_LAYOUT : patternProps
+                    : customPattern;
+
+            final ConsoleAppender consoleAppender = new ConsoleAppender(new PatternLayout(pattern), "System.out");
 
             logger = Logger.getLogger(className);
             logger.setLevel(Level.DEBUG);
