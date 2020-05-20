@@ -86,3 +86,7 @@ t:13 [INFO] 15:47:33 ParallelTestSample.secondTest()- second 3
 --- [END] Test: secondTest | Thread id: 13] ---
 ```
 
+
+Don't initialization logger for class and use in static methods!!!
+Call `log()` in static method and tests.
+
