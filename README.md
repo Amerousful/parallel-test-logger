@@ -3,13 +3,27 @@ Logger for structured parallel logs. The biggest pain when running parallel test
  solve it!
  
  Supported for TestNG.
- 
+
+## Install 
+Add to your pom:
+```text
+<dependency>
+    <groupId>io.github.amerousful</groupId>
+    <artifactId>parallel-test-logger</artifactId>
+    <version>1.1</version>
+</dependency>
+```
+
+Import:
+```text
+import static logger.LoggerFactory.log;
+```
  
 ## How it works?
 Before test start - logger initialization by thread id and test name. Then all logs during tests append to buffer. And
  after test end logs gets.
  
-###Example: 
+##Example: 
 Let's defined simple test class with several tests and run in parallel it.
 ```java
 import static logger.LoggerFactory.log;
