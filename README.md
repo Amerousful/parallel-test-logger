@@ -23,7 +23,7 @@ import static logger.LoggerFactory.log;
 Before test start - logger initialization by thread id and test name. Then all logs during tests append to buffer. And
  after test end logs gets.
  
-##Example: 
+### Example: 
 Let's defined simple test class with several tests and run in parallel it.
 ```java
 import static logger.LoggerFactory.log;
@@ -100,7 +100,50 @@ t:13 [INFO] 15:47:33 ParallelTestSample.secondTest()- second 3
 --- [END] Test: secondTest | Thread id: 13] ---
 ```
 
-
-Don't initialization logger for class and use in static methods!!!
+***
+Don't initialization logger for class and use in static methods!
 Call `log()` in static method and tests.
+
+Bad:
+```
+import logger.LoggerFactory;
+import org.apache.log4j.Logger;
+
+public class Utils {
+
+   static Logger logger = LoggerFactory.log();
+
+    static void staticMethod() {
+        logger.info("bad...");
+    }
+}
+```
+
+Right way:
+```
+import static logger.LoggerFactory.log;
+
+public class Utils {
+    
+    static void staticMethod() {
+        log().info("yeap!");
+    }
+}
+```
+
+***
+
+Logger also provide properties file. Just create file `src/test/resources/parallel_log.properties`
+Available options:
+- pattern [for parallel]
+- single_pattern
+- allure [true | false]
+
+Example:
+```
+pattern=t:%X{threadId} [%p] %d{HH:mm:ss} [%C{1} L:%L]- %m%n
+allure=true
+```
+
+
 
