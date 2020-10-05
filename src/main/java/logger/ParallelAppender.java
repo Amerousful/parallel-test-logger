@@ -38,19 +38,32 @@ public class ParallelAppender extends AppenderSkeleton {
     }
 
     public String getAllLogs() {
-        return returnLogs(fullLog);
+        return returnTestLogs(fullLog);
     }
 
     public String getInfoLogs() {
-        return returnLogs(logInfo);
+        return returnTestLogs(logInfo);
     }
 
-    private String returnLogs(CopyOnWriteArrayList<String> list) {
-        StringBuilder dataOut = new StringBuilder(" --- [START] Test: " + super.getName() + " | Thread id: " + Thread.currentThread().getId() + "] ---\n");
+    public String getAllConfigurationLogs() {
+        return returnConfigurationLogs(fullLog);
+    }
+
+    private String returnTestLogs(CopyOnWriteArrayList<String> list) {
+        return returnLogs(list, MethodType.Test);
+    }
+
+    private String returnConfigurationLogs(CopyOnWriteArrayList<String> list) {
+        return returnLogs(list, MethodType.Configuration);
+    }
+
+    private String returnLogs(CopyOnWriteArrayList<String> list, MethodType methodType) {
+        StringBuilder dataOut =
+                new StringBuilder("--- [START] " + methodType + " : " + super.getName() + " | Thread id: " + Thread.currentThread().getId() + "] ---\n");
         for (String message : list) {
             dataOut.append(message);
         }
-        dataOut.append("--- [END] Test: ").append(super.getName()).append(" | Thread id: ").append(Thread.currentThread().getId()).append("] ---\n");
+        dataOut.append("--- [END] " + methodType + ": ").append(super.getName()).append(" | Thread id: ").append(Thread.currentThread().getId()).append("] ---\n");
 
         return dataOut.toString();
     }

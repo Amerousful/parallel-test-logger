@@ -2,10 +2,7 @@ package listeners;
 
 import io.qameta.allure.Attachment;
 import logger.LoggerFactory;
-import org.testng.IInvokedMethod;
-import org.testng.IInvokedMethodListener;
-import org.testng.ITestListener;
-import org.testng.ITestResult;
+import org.testng.*;
 
 import static logger.Props.properties;
 
@@ -53,6 +50,25 @@ public class ParallelListener implements IInvokedMethodListener, ITestListener {
             }
         }
 
+    }
+
+    @Override
+    public void afterInvocation(IInvokedMethod method, ITestResult result, ITestContext context) {
+        boolean isParallel = result.getTestContext().getCurrentXmlTest().getParallel().isParallel();
+
+        if (isParallel) {
+            if (method.isConfigurationMethod()) {
+                String logs = LoggerFactory.fullConfigLog(result.getName());
+                System.out.println(logs);
+
+                String allureProps = properties.getProperty("allure");
+                boolean enableAllure = allureProps == null || Boolean.parseBoolean(allureProps);
+
+                if (enableAllure) {
+                    textAttachment("LOGS " + result.getName(), logs);
+                }
+            }
+        }
     }
 
     @Override
