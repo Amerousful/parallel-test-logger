@@ -99,4 +99,11 @@ public class LoggerFactory {
         return appender.getAllLogs();
     }
 
+    public static String fullConfigLog(String testName) {
+        Logger log = log();
+        ParallelAppender appender = (ParallelAppender) log.getAppender(testName);
+
+        return appender.getAllConfigurationLogs();
+    }
+
 }
