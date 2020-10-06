@@ -79,7 +79,7 @@ public class ParallelTestSample {
 
 }
 ```
-###Result:
+### Result:
 ```text
 --- [START] Test: third | Thread id: 14] ---
 t:14 [INFO] 15:47:33 ParallelTestSample.third()- third 1
