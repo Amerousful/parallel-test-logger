@@ -6,12 +6,19 @@ import org.testng.*;
 
 import static logger.Props.properties;
 
-public class ParallelListener implements IInvokedMethodListener, ITestListener {
+public class ParallelListener implements IInvokedMethodListener, ITestListener, IDataProviderListener {
+
+    public boolean dataProviderIsParallel;
+
+    @Override
+    public void beforeDataProviderExecution(IDataProviderMethod dataProviderMethod, ITestNGMethod method, ITestContext iTestContext) {
+        dataProviderIsParallel = dataProviderMethod.isParallel();
+    }
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult result) {
         boolean isParallel = result.getTestContext().getCurrentXmlTest().getParallel().isParallel();
-        if (isParallel) {
+        if (isParallel || dataProviderIsParallel) {
             LoggerFactory.init(method.getTestMethod().getMethodName());
         }
     }
@@ -20,7 +27,7 @@ public class ParallelListener implements IInvokedMethodListener, ITestListener {
     public void onTestSuccess(ITestResult result) {
         boolean isParallel = result.getTestContext().getCurrentXmlTest().getParallel().isParallel();
 
-        if (isParallel) {
+        if (isParallel || dataProviderIsParallel) {
             String logs = LoggerFactory.infoLog(result.getName());
             System.out.println(logs);
 
@@ -38,7 +45,7 @@ public class ParallelListener implements IInvokedMethodListener, ITestListener {
     public void onTestFailure(ITestResult result) {
         boolean isParallel = result.getTestContext().getCurrentXmlTest().getParallel().isParallel();
 
-        if (isParallel) {
+        if (isParallel || dataProviderIsParallel) {
             String logs = LoggerFactory.fullLog(result.getName());
             System.out.println(logs);
 
@@ -56,7 +63,7 @@ public class ParallelListener implements IInvokedMethodListener, ITestListener {
     public void afterInvocation(IInvokedMethod method, ITestResult result, ITestContext context) {
         boolean isParallel = result.getTestContext().getCurrentXmlTest().getParallel().isParallel();
 
-        if (isParallel) {
+        if (isParallel || dataProviderIsParallel) {
             if (method.isConfigurationMethod()) {
                 String logs = LoggerFactory.fullConfigLog(result.getName());
                 System.out.println(logs);

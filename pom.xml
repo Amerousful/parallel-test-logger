@@ -6,7 +6,7 @@
 
     <groupId>io.github.amerousful</groupId>
     <artifactId>parallel-test-logger</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <name>parallel-test-logger</name>
     <description>Simple logger for structuring parallel running tests</description>
@@ -55,14 +55,6 @@
         <allure.results.directory>${buildDirectory}/allure-results</allure.results.directory>
         <aspectj.version>1.8.3</aspectj.version>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/Amerousful/parallel-test-logger</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <pluginManagement>
