@@ -1,4 +1,4 @@
-# Parallel Test Logger
+# Parallel Test Logger  [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.amerousful/parallel-test-logger/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.amerousful/parallel-test-logger/)
 Logger for structured parallel logs. The biggest pain when running parallel tests is spaghetti logs. Let's
  solve it!
  
@@ -10,7 +10,7 @@ Add to your pom:
 <dependency>
     <groupId>io.github.amerousful</groupId>
     <artifactId>parallel-test-logger</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 </dependency>
 ```
 
