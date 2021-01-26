@@ -61,18 +61,23 @@ public class ParallelListener implements IInvokedMethodListener, ITestListener, 
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult result, ITestContext context) {
-        boolean isParallel = result.getTestContext().getCurrentXmlTest().getParallel().isParallel();
 
-        if (isParallel || dataProviderIsParallel) {
-            if (method.isConfigurationMethod()) {
-                String logs = LoggerFactory.fullConfigLog(result.getName());
-                System.out.println(logs);
+        // BeforeSuite runs with threadId 1. For ThreadId 1 initialized console logger.
+        if (Thread.currentThread().getId() != 1) {
 
-                String allureProps = properties.getProperty("allure");
-                boolean enableAllure = allureProps == null || Boolean.parseBoolean(allureProps);
+            boolean isParallel = result.getTestContext().getCurrentXmlTest().getParallel().isParallel();
 
-                if (enableAllure) {
-                    textAttachment("LOGS " + result.getName(), logs);
+            if (isParallel || dataProviderIsParallel) {
+                if (method.isConfigurationMethod()) {
+                    String logs = LoggerFactory.fullConfigLog(result.getName());
+                    System.out.println(logs);
+
+                    String allureProps = properties.getProperty("allure");
+                    boolean enableAllure = allureProps == null || Boolean.parseBoolean(allureProps);
+
+                    if (enableAllure) {
+                        textAttachment("LOGS " + result.getName(), logs);
+                    }
                 }
             }
         }
