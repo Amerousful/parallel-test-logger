@@ -1,3 +1,10 @@
+Changelog 1.4 (27-01-2021)
+----------------------------
+* Fix for *before/*after methods when threads count less than tests count
+* Append test method name to logs from configuration method
+* Update TestNG version (^7.3.0)
+* Detect testng's 'parallel="tests" as parallel mode'
+
 Changelog 1.3 (26-01-2021)
 ----------------------------
 * Fix logs for @BeforeSuite

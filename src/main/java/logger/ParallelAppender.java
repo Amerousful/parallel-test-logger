@@ -12,6 +12,7 @@ public class ParallelAppender extends AppenderSkeleton {
 
     final CopyOnWriteArrayList<String> logInfo = new CopyOnWriteArrayList<>();
     final CopyOnWriteArrayList<String> fullLog = new CopyOnWriteArrayList<>();
+    private final ThreadLocal<String> testNameForConfiguration = new ThreadLocal<>();
 
     public ParallelAppender(Layout layout) {
         this.setLayout(layout);
@@ -58,14 +59,26 @@ public class ParallelAppender extends AppenderSkeleton {
     }
 
     private String returnLogs(CopyOnWriteArrayList<String> list, MethodType methodType) {
+        String name = super.getName();
+
+        if (methodType.equals(MethodType.Configuration)) {
+            if (testNameForConfiguration.get() != null) {
+                name += " => Test: " + testNameForConfiguration.get();
+            }
+        }
+
         StringBuilder dataOut =
-                new StringBuilder("--- [START] " + methodType + " : " + super.getName() + " | Thread id: " + Thread.currentThread().getId() + "] ---\n");
+                new StringBuilder("--- [START] " + methodType + " : " + name + " | Thread id: " + Thread.currentThread().getId() + "] ---\n");
         for (String message : list) {
             dataOut.append(message);
         }
-        dataOut.append("--- [END] " + methodType + ": ").append(super.getName()).append(" | Thread id: ").append(Thread.currentThread().getId()).append("] ---\n");
+        dataOut.append("--- [END] " + methodType + ": ").append(name).append(" | Thread id: ").append(Thread.currentThread().getId()).append("] ---\n");
 
         return dataOut.toString();
+    }
+
+    public void setTestNameForConfiguration(String name) {
+        testNameForConfiguration.set(name);
     }
 
 }

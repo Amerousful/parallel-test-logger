@@ -10,7 +10,7 @@ Add to your pom:
 <dependency>
     <groupId>io.github.amerousful</groupId>
     <artifactId>parallel-test-logger</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
 </dependency>
 ```
 
@@ -24,7 +24,7 @@ Before test start - logger initialization by thread id and test name. Then all l
  after test end logs gets.
  
 ### Example: 
-Let's defined simple test class with several tests and run in parallel it.
+Lets defined simple test class with several tests and run in parallel it.
 ```java
 import static logger.LoggerFactory.log;
 

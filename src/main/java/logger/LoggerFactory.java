@@ -14,7 +14,7 @@ public class LoggerFactory {
     private static final ConcurrentMap<Long, Logger> byThreadIdLogs = new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Logger> byClassLogs = new ConcurrentHashMap<>();
     private static final String CONSOLE_LAYOUT = "[%p] %d{HH:mm:ss} [%l]- %m%n";
-    private static final String PARALLEL_LAYOUT = "t:%X{threadId} [%p] %d{HH:mm:ss} [%l] - %m%n";
+    private static final String PARALLEL_LAYOUT = "t:%X{threadId} [%p] %d{HH:mm:ss,SSS} [%l] - %m%n";
 
     public static Logger init(String testName) {
         Long threadId = Thread.currentThread().getId();
@@ -26,6 +26,28 @@ public class LoggerFactory {
 
         ParallelAppender appender = new ParallelAppender(new PatternLayout(pattern));
         appender.setName(testName);
+
+        Logger logger = getLogger(String.valueOf(threadId));
+        logger.setAdditivity(false);
+        logger.addAppender(appender);
+        logger.setLevel(Level.DEBUG);
+
+        byThreadIdLogs.put(threadId, logger);
+
+        return logger;
+    }
+
+    public static Logger init(String testName, String testNameForConfiguration) {
+        Long threadId = Thread.currentThread().getId();
+
+        MDC.put("threadId", threadId);
+
+        String patternProps = properties.getProperty("pattern");
+        String pattern = patternProps == null ? PARALLEL_LAYOUT : patternProps;
+
+        ParallelAppender appender = new ParallelAppender(new PatternLayout(pattern));
+        appender.setName(testName);
+        appender.setTestNameForConfiguration(testNameForConfiguration);
 
         Logger logger = getLogger(String.valueOf(threadId));
         logger.setAdditivity(false);
@@ -104,6 +126,11 @@ public class LoggerFactory {
         ParallelAppender appender = (ParallelAppender) log.getAppender(testName);
 
         return appender.getAllConfigurationLogs();
+    }
+
+    public static void flushAppender(String testName) {
+        Logger log = log();
+        log.removeAppender(testName);
     }
 
 }
