@@ -81,4 +81,9 @@ public class ParallelAppender extends AppenderSkeleton {
         testNameForConfiguration.set(name);
     }
 
+    void flushALlLogs() {
+        logInfo.clear();
+        fullLog.clear();
+    }
+
 }

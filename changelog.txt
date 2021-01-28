@@ -1,3 +1,7 @@
+Changelog 1.4.2 (28-01-2021)
+----------------------------
+* Change flush logic
+
 Changelog 1.4.1 (28-01-2021)
 ----------------------------
 * Fix NPE when absent configuration method

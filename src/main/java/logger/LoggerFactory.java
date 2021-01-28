@@ -130,7 +130,8 @@ public class LoggerFactory {
 
     public static void flushAppender(String testName) {
         Logger log = log();
-        log.removeAppender(testName);
+        ParallelAppender appender = (ParallelAppender) log.getAppender(testName);
+        appender.flushALlLogs();
     }
 
 }
