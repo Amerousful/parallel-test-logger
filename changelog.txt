@@ -1,3 +1,7 @@
+Changelog 1.4.1 (28-01-2021)
+----------------------------
+* Fix NPE when absent configuration method
+
 Changelog 1.4 (27-01-2021)
 ----------------------------
 * Fix for *before/*after methods when threads count less than tests count

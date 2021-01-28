@@ -22,7 +22,9 @@ public class ParallelListener implements IInvokedMethodListener, ITestListener, 
 
     @Override
     public void beforeConfiguration(ITestResult tr, ITestNGMethod tm) {
-        testNameForConfiguration.set(tm.getMethodName());
+        if (tm != null) {
+            testNameForConfiguration.set(tm.getMethodName());
+        }
     }
 
     @Override
