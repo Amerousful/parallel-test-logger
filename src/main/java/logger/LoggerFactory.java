@@ -100,7 +100,7 @@ public class LoggerFactory {
             logger = Logger.getLogger(className);
             logger.setLevel(Level.DEBUG);
             logger.addAppender(consoleAppender);
-
+            logger.setAdditivity(false);
             byClassLogs.put(className, logger);
         }
 
