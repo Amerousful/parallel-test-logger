@@ -111,21 +111,21 @@ public class LoggerFactory {
         Logger log = log();
         ParallelAppender appender = (ParallelAppender) log.getAppender(testName);
 
-        return appender.getInfoLogs();
+        return appender != null ? appender.getInfoLogs() : "";
     }
 
     public static String fullLog(String testName) {
         Logger log = log();
         ParallelAppender appender = (ParallelAppender) log.getAppender(testName);
 
-        return appender.getAllLogs();
+        return appender != null ? appender.getAllLogs() : "";
     }
 
     public static String fullConfigLog(String testName) {
         Logger log = log();
         ParallelAppender appender = (ParallelAppender) log.getAppender(testName);
 
-        return appender.getAllConfigurationLogs();
+        return appender != null ? appender.getAllConfigurationLogs() : "";
     }
 
     public static void flushAppender(String testName) {

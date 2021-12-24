@@ -6,7 +6,7 @@
 
     <groupId>io.github.amerousful</groupId>
     <artifactId>parallel-test-logger</artifactId>
-    <version>1.4.4</version>
+    <version>1.4.5</version>
 
     <name>parallel-test-logger</name>
     <description>Simple logger for structuring parallel running tests</description>
@@ -46,9 +46,9 @@
     </distributionManagement>
 
     <properties>
-        <jdk.source.version>1.8</jdk.source.version>
-        <jdk.target.version>1.8</jdk.target.version>
-        <compiler.version>1.8</compiler.version>
+        <jdk.source.version>11</jdk.source.version>
+        <jdk.target.version>11</jdk.target.version>
+        <compiler.version>11</compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <allure.version>2.12.1</allure.version>
         <buildDirectory>${project.basedir}/target</buildDirectory>

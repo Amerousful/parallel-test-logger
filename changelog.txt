@@ -1,3 +1,7 @@
+Changelog 1.4.5 (12-07-2021)
+----------------------------
+* Avoid null appender
+
 Changelog 1.4.4 (12-07-2021)
 ----------------------------
 * Fix Additivity for Console Logger
@@ -17,7 +21,7 @@ Changelog 1.4.1 (28-01-2021)
 Changelog 1.4 (27-01-2021)
 ----------------------------
 * Fix for *before/*after methods when threads count less than tests count
-* Append test method name to logs from configuration method
+* Append test method name to log from configuration method
 * Update TestNG version (^7.3.0)
 * Detect testng's 'parallel="tests" as parallel mode'
 
