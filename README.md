@@ -10,7 +10,7 @@ Add to your pom:
 <dependency>
     <groupId>io.github.amerousful</groupId>
     <artifactId>parallel-test-logger</artifactId>
-    <version>1.4.4</version>
+    <version>1.4.5</version>
 </dependency>
 ```
 
