@@ -1,12 +1,11 @@
 # Parallel Test Logger  [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.amerousful/parallel-test-logger/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.amerousful/parallel-test-logger/)
-Logger for structured parallel logs. The biggest pain when running parallel tests is spaghetti logs. Let's
- solve it!
+The biggest pain when running parallel tests is messy, spaghetti-like logs. Let’s fix this!
  
  Supported for TestNG.
 
 ## Install 
 Add to your pom:
-```text
+```xml
 <dependency>
     <groupId>io.github.amerousful</groupId>
     <artifactId>parallel-test-logger</artifactId>
@@ -15,16 +14,15 @@ Add to your pom:
 ```
 
 Import:
-```text
+```java
 import static logger.LoggerFactory.log;
 ```
  
-## How it works?
-Before test start - logger initialization by thread id and test name. Then all logs during tests append to buffer. And
- after test end logs gets.
+## How does it work?
+Before the test begins, the logger is initialized based on the thread ID and the test name. During the test, all logs are appended to a buffer. Once the test ends, the logs are retrieved from the buffer.
  
 ### Example: 
-Lets defined simple test class with several tests and run in parallel it.
+Let's define a simple test class with multiple tests and execute them in parallel.
 ```java
 import static logger.LoggerFactory.log;
 
@@ -55,7 +53,7 @@ public class ParallelTestSample {
 }
 
 ```
-Run xml with `parallel="methods" thread-count="3"`
+Run the xml with `parallel="methods" thread-count="3"`
 ***
 Stdout will be chaotic and mixed:
 ```text
@@ -70,7 +68,7 @@ Stdout will be chaotic and mixed:
 [INFO] 14:18:42 ParallelTestSample.firstTest()- first 3
 ```
 
-Ok, now we defined parallel listener and run again
+Ok, now we define the parallel listener and run it again.
 ```java
 import listeners.ParallelListener;
 
@@ -101,11 +99,11 @@ t:13 [INFO] 15:47:33 ParallelTestSample.secondTest()- second 3
 ```
 
 ***
-Don't initialization logger for class and use in static methods!
-Call `log()` in static method and tests.
+Don't initial the logger for a class and use in static methods!\
+Call `log()` in static methods and tests.
 
 Bad:
-```
+```java
 import logger.LoggerFactory;
 import org.apache.log4j.Logger;
 
@@ -119,8 +117,8 @@ public class Utils {
 }
 ```
 
-Right way:
-```
+Good:
+```java
 import static logger.LoggerFactory.log;
 
 public class Utils {
@@ -133,14 +131,14 @@ public class Utils {
 
 ***
 
-Logger also provide properties file. Just create file `src/test/resources/parallel_log.properties`
+The Logger can be configured using a properties file. Just create a file `src/test/resources/parallel_log.properties`
 Available options:
 - pattern [for parallel]
 - single_pattern
 - allure [true | false]
 
 Example:
-```
+```properties
 pattern=t:%X{threadId} [%p] %d{HH:mm:ss} [%C{1} L:%L]- %m%n
 allure=true
 ```
